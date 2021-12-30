@@ -47,6 +47,9 @@ def parse_args():
                         help='experiment configure file name',
                         required=True,
                         type=str)
+    parser.add_argument('--backbone',
+                        help='backbone of transpose_m',
+                        default=None)
 
     parser.add_argument('opts',
                         help="Modify config options using the command-line",
@@ -97,7 +100,7 @@ def main():
     random.seed(seed)
 
     model = eval('models.'+cfg.MODEL.NAME+'.get_pose_net')(
-        cfg, is_train=True
+        cfg, is_train=True, backbone=args.backbone
     )
 
     # copy model file
