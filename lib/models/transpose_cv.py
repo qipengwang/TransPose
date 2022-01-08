@@ -23,6 +23,13 @@ from typing import Optional, List
 
 from .transpose_r import TransformerEncoder, TransformerEncoderLayer
 from .mobilenet import MobileNetV1, MobileNetV2, MobileNetV3_Large, MobileNetV3_Small
+from .googlenet import GoogLeNet
+from .xception import Xception
+from .inceptionv3 import InceptionV3
+from .shufflenetv2 import ShuffleNetV2
+from .squeezenet import SqueezeNet
+from .vgg import *
+from .linear import LinearProjection
 
 
 BN_MOMENTUM = 0.1
@@ -39,9 +46,10 @@ class TransPoseM(nn.Module):
         # base net
         model = basenet()
         self.features = model.features[:num_features]
+        print(self.features[-1])
         self.features = nn.Sequential(*self.features)
-        # print(self.features)
         num_out = model.features_out[num_features - 1]
+        print(num_out)
 
         d_model = cfg.MODEL.DIM_MODEL
         dim_feedforward = cfg.MODEL.DIM_FEEDFORWARD
@@ -221,6 +229,7 @@ class TransPoseM(nn.Module):
 
 
 def get_pose_net(cfg, is_train, **kwargs):
+    # stride = [2, 2, 2]
     mobilenet_spec = {
         'MobileNet': (MobileNetV1, 6),  # 14
         'MobileNetV1': (MobileNetV1, 6),  # 14
@@ -228,7 +237,20 @@ def get_pose_net(cfg, is_train, **kwargs):
         'MobileNetV3Large': (MobileNetV3_Large, 9),  # 21
         'MobileNetV3_Large': (MobileNetV3_Large, 9),  # 21
         'MobileNetV3Small': (MobileNetV3_Small, 6),  # 17
-        'MobileNetV3_Small': (MobileNetV3_Small, 6)  # 17
+        'MobileNetV3_Small': (MobileNetV3_Small, 6),  # 17
+        'GoogleNet': (GoogLeNet, 7),
+        'Xception': (Xception, 8),
+        'InceptionV3': (InceptionV3, 10),
+        'ShuffleNetV2': (ShuffleNetV2, 5),
+        'SqueezeNet': (SqueezeNet, 12),
+        'SqueezeNetV1.0': (SqueezeNet, 12),
+        'VGG11': (VGG11, 9),
+        'VGG13': (VGG13, 11),
+        'VGG16': (VGG16, 13),
+        'VGG19': (VGG19, 15),
+        'Linear': (LinearProjection, 1),
+        'LinearProjection': (LinearProjection, 1),
+
     }
     basenet, num_features = mobilenet_spec[kwargs['backbone']]
     model = TransPoseM(basenet, num_features, cfg, **kwargs)

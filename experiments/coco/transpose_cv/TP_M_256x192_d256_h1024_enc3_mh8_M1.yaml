@@ -7,7 +7,7 @@ DATA_DIR: ''
 GPUS: (0,)
 OUTPUT_DIR: 'output'
 LOG_DIR: 'log'
-WORKERS: 24
+WORKERS: 16
 PRINT_FREQ: 100
 
 DATASET:
@@ -24,6 +24,7 @@ DATASET:
   TRAIN_SET: 'train2017'
 MODEL:
   # Transformer Encoder
+  BACKBONE: 'MobileNetV1'
   DIM_MODEL: 256
   DIM_FEEDFORWARD: 1024
   N_HEAD: 8
@@ -31,7 +32,7 @@ MODEL:
   ATTENTION_ACTIVATION: relu
   POS_EMBEDDING: sine
   # #
-  NAME: 'transpose_m'
+  NAME: 'transpose_cv'
   # PRETRAINED: 'models/pytorch/imagenet/resnet50-19c8e357.pth'
   IMAGE_SIZE:
   - 192

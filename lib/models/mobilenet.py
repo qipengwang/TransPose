@@ -4,28 +4,50 @@ import torch.nn.functional as F
 import math
 
 ######################################### MobileNetV1 ##################################################
+def conv_dw(inp, oup, stride):
+    return nn.Sequential(
+        nn.Conv2d(inp, inp, 3, stride, 1, groups=inp, bias=False),
+        nn.BatchNorm2d(inp),
+        nn.ReLU(inplace=True),
+
+        nn.Conv2d(inp, oup, 1, 1, 0, bias=False),
+        nn.BatchNorm2d(oup),
+        nn.ReLU(inplace=True),
+    )
+
+def conv_bn(inp, oup, stride, use_batch_norm=True, onnx_compatible=False):
+    ReLU = nn.ReLU if onnx_compatible else nn.ReLU6
+
+    if use_batch_norm:
+        return nn.Sequential(
+            nn.Conv2d(inp, oup, 3, stride, 1, bias=False),
+            nn.BatchNorm2d(oup),
+            ReLU(inplace=True)
+        )
+    else:
+        return nn.Sequential(
+            nn.Conv2d(inp, oup, 3, stride, 1, bias=False),
+            ReLU(inplace=True)
+        )
+
+
+def conv_1x1_bn(inp, oup, use_batch_norm=True, onnx_compatible=False):
+    ReLU = nn.ReLU if onnx_compatible else nn.ReLU6
+    if use_batch_norm:
+        return nn.Sequential(
+            nn.Conv2d(inp, oup, 1, 1, 0, bias=False),
+            nn.BatchNorm2d(oup),
+            ReLU(inplace=True)
+        )
+    else:
+        return nn.Sequential(
+            nn.Conv2d(inp, oup, 1, 1, 0, bias=False),
+            ReLU(inplace=True)
+        )
+
 class MobileNetV1(nn.Module):
     def __init__(self, num_classes=1024):
         super(MobileNetV1, self).__init__()
-
-        def conv_bn(inp, oup, stride):
-            return nn.Sequential(
-                nn.Conv2d(inp, oup, 3, stride, 1, bias=False),
-                nn.BatchNorm2d(oup),
-                nn.ReLU(inplace=True)
-            )
-
-        def conv_dw(inp, oup, stride):
-            return nn.Sequential(
-                nn.Conv2d(inp, inp, 3, stride, 1, groups=inp, bias=False),
-                nn.BatchNorm2d(inp),
-                nn.ReLU(inplace=True),
-
-                nn.Conv2d(inp, oup, 1, 1, 0, bias=False),
-                nn.BatchNorm2d(oup),
-                nn.ReLU(inplace=True),
-            )
-
         self.features = [
             conv_bn(3, 32, 2),
             conv_dw(32, 64, 1),
@@ -58,37 +80,6 @@ class MobileNetV1(nn.Module):
 
 
 ######################################### MobileNetV2 ##################################################
-def conv_bn(inp, oup, stride, use_batch_norm=True, onnx_compatible=False):
-    ReLU = nn.ReLU if onnx_compatible else nn.ReLU6
-
-    if use_batch_norm:
-        return nn.Sequential(
-            nn.Conv2d(inp, oup, 3, stride, 1, bias=False),
-            nn.BatchNorm2d(oup),
-            ReLU(inplace=True)
-        )
-    else:
-        return nn.Sequential(
-            nn.Conv2d(inp, oup, 3, stride, 1, bias=False),
-            ReLU(inplace=True)
-        )
-
-
-def conv_1x1_bn(inp, oup, use_batch_norm=True, onnx_compatible=False):
-    ReLU = nn.ReLU if onnx_compatible else nn.ReLU6
-    if use_batch_norm:
-        return nn.Sequential(
-            nn.Conv2d(inp, oup, 1, 1, 0, bias=False),
-            nn.BatchNorm2d(oup),
-            ReLU(inplace=True)
-        )
-    else:
-        return nn.Sequential(
-            nn.Conv2d(inp, oup, 1, 1, 0, bias=False),
-            ReLU(inplace=True)
-        )
-
-
 class InvertedResidual(nn.Module):
     def __init__(self, inp, oup, stride, expand_ratio, use_batch_norm=True, onnx_compatible=False):
         super(InvertedResidual, self).__init__()

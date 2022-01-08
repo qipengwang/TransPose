@@ -7,7 +7,7 @@ DATA_DIR: ''
 GPUS: (0,)
 OUTPUT_DIR: 'output'
 LOG_DIR: 'log'
-WORKERS: 24
+WORKERS: 16
 PRINT_FREQ: 100
 
 DATASET:
@@ -24,6 +24,7 @@ DATASET:
   TRAIN_SET: 'train2017'
 MODEL:
   # Transformer Encoder
+  BACKBONE: 'ShuffleNetV2'
   DIM_MODEL: 256
   DIM_FEEDFORWARD: 1024
   N_HEAD: 8
@@ -31,7 +32,7 @@ MODEL:
   ATTENTION_ACTIVATION: relu
   POS_EMBEDDING: sine
   # #
-  NAME: 'transpose_m'
+  NAME: 'transpose_cv'
   # PRETRAINED: 'models/pytorch/imagenet/resnet50-19c8e357.pth'
   IMAGE_SIZE:
   - 192
@@ -57,7 +58,7 @@ TRAIN:
   BATCH_SIZE_PER_GPU: 20
   SHUFFLE: true
   BEGIN_EPOCH: 0
-  END_EPOCH: 12
+  END_EPOCH: 120
   OPTIMIZER: adam
   LR: 0.0001  # Initial learning rate
   LR_END: 0.00001  # Final learning rate
