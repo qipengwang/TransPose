@@ -1,6 +1,6 @@
 ## Introduction
 
-This repo contains codes for CV final project: **When Transformer Meets Pose Estimation: Methodology, Measurement and Analysis**. It is based on **[TransPose](https://arxiv.org/abs/2012.14214)**, which is a human pose estimation model based on a CNN feature extractor, a Transformer Encoder, and a prediction head. Given an image, the attention layers built in Transformer can efficiently capture long-range spatial relationships between keypoints and explain what dependencies the predicted keypoints locations highly rely on. 
+This repo contains codes for CV final project: **When Transformer Meets Pose Estimation: Methodology, Measurement, and Analysis**. It is based on **[TransPose](https://arxiv.org/abs/2012.14214)**, which is a human pose estimation model based on a CNN feature extractor, a Transformer Encoder, and a prediction head. Given an image, the attention layers built in Transformer can efficiently capture long-range spatial relationships between keypoints and explain what dependencies the predicted keypoints locations highly rely on. 
 
 ![Architecture](transpose_architecture.png)
 
@@ -32,7 +32,7 @@ The original Transpose has two types of CNNs as the backbone candidates: ResNet 
 
 ### Results on COCO val2017 with detector having human AP of 56.4 on COCO val2017 dataset
 
-All experiments were done on 2 nodesof the [PKU PHC platform](https://hpc.pku.edu.cn), each with 4 Telsa P100 GPUs. 
+All experiments were done on 2 nodes of the [PKU PHC platform](https://hpc.pku.edu.cn), each with 4 Telsa P100 GPUs. 
 
 // TODO: add experiment results to the table
 
