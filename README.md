@@ -1,6 +1,6 @@
 ## Introduction
 
-**[TransPose](https://arxiv.org/abs/2012.14214)** is a human pose estimation model based on a CNN feature extractor, a Transformer Encoder, and a prediction head. Given an image, the attention layers built in Transformer can efficiently capture long-range spatial relationships between keypoints and explain what dependencies the predicted keypoints locations highly rely on. 
+This repo contains codes for CV final project: **When Transformer Meets Pose Estimation: Methodology, Measurement and Analysis**. It is based on **[TransPose](https://arxiv.org/abs/2012.14214)**, which is a human pose estimation model based on a CNN feature extractor, a Transformer Encoder, and a prediction head. Given an image, the attention layers built in Transformer can efficiently capture long-range spatial relationships between keypoints and explain what dependencies the predicted keypoints locations highly rely on. 
 
 ![Architecture](transpose_architecture.png)
 
@@ -14,7 +14,9 @@
 
 ## Model Zoo
 
-We choose two types of CNNs as the backbone candidates: ResNet and HRNet. The derived convolutional blocks are ResNet-Small, HRNet-Small-W32, and HRNet-Small-W48.
+The original Transpose has two types of CNNs as the backbone candidates: ResNet and HRNet. The derived convolutional blocks are ResNet-Small, HRNet-Small-W32, and HRNet-Small-W48. We replaced the backbone to xxx and evaluated xx.
+
+// TODO: add experiment results to the table
 
 | Model          | Backbone    | #Attention layers |  d   |  h   | #Heads | #Params | AP (coco val gt bbox) | Download |
 | -------------- | ----------- | :---------------: | :--: | :--: | :----: | :-----: | :-------------------: | :------: |
@@ -24,18 +26,15 @@ We choose two types of CNNs as the backbone candidates: ResNet and HRNet. The de
 | TransPose-H-A4 | HRNet-S-W48 |         4         |  96  | 192  |   1    | 17.3Mb  |         77.5          | [model](https://github.com/yangsenius/TransPose/releases/download/Hub/tp_h_48_256x192_enc4_d96_h192_mh1.pth) |
 | TransPose-H-A6 | HRNet-S-W48 |         6         |  96  | 192  |   1    | 17.5Mb  |         78.1          | [model](https://github.com/yangsenius/TransPose/releases/download/Hub/tp_h_48_256x192_enc6_d96_h192_mh1.pth) |
 
-### Quick use
+// TODO: Swing transformer
 
-You can directly load TransPose-R-A4 or TransPose-H-A4 models with pretrained weights on COCO train2017 dataset from Torch Hub, simply by:
 
-```python
-import torch
-
-tpr = torch.hub.load('yangsenius/TransPose:main', 'tpr_a4_256x192', pretrained=True)
-tph = torch.hub.load('yangsenius/TransPose:main', 'tph_a4_256x192', pretrained=True)
-```
 
 ### Results on COCO val2017 with detector having human AP of 56.4 on COCO val2017 dataset
+
+All experiments were done on 2 nodesof the [PKU PHC platform](https://hpc.pku.edu.cn), each with 4 Telsa P100 GPUs. 
+
+// TODO: add experiment results to the table
 
 |     Model      | Input size | FPS* | GFLOPs | AP    | Ap .5 | AP .75 | AP (M) | AP (L) |  AR   | AR .5 | AR .75 | AR (M) | AR (L) |
 | :------------: | :--------: | :--: | :----: | ----- | ----- | :----: | :----: | :----: | :---: | :---: | :----: | :----: | :----: |
@@ -58,23 +57,6 @@ Note:
 | TransPose-H-A4 | 256x192    | 17.3M   | 17.5   | 0.747 | 0.919 | 0.822  | 0.714  | 0.807  | 0.799 | 0.953 | 0.866  | 0.758  | 0.854  |
 | TransPose-H-A6 | 256x192    | 17.5M   | 21.8   | 0.750 | 0.922 | 0.823  | 0.713  | 0.811  | 0.801 | 0.954 | 0.867  | 0.759  | 0.859  |
 
-### Visualization
-
-[Jupyter Notebook Demo](demo.ipynb)
-
-Given an input image, a pretrained TransPose model, and the predicted locations, we can visualize the spatial dependencies of the predicted locations with threshold for the attention scores.
-
-`TransPose-R-A4` with `threshold=0.00`
-![example](attention_map_image_dependency_transposer_thres_0.0.jpg)
-
-`TransPose-R-A4` with `threshold=0.01`
-![](attention_map_image_dependency_transposer_thres_0.01.jpg)
-
-`TransPose-H-A4` with `threshold=0.00`
-![example](attention_map_image_dependency_transposeh_thres_0.0.jpg)
-
-`TransPose-H-A4` with `threshold=0.00075`
-![example](attention_map_image_dependency_transposeh_thres_0.00075.jpg)
 
 ## Getting started
 
@@ -83,7 +65,7 @@ Given an input image, a pretrained TransPose model, and the predicted locations,
 1. Clone this repository, and we'll call the directory that you cloned as ${POSE_ROOT}
 
    ```bash
-   git clone https://github.com/yangsenius/TransPose.git
+   git clone https://github.com/qipengwang/TransPose.git
    ```
 
 2. Install PyTorch>=1.6 and torchvision>=0.7 from the PyTorch [official website](https://pytorch.org/get-started/locally/)
@@ -157,21 +139,8 @@ python tools/train.py --cfg experiments/coco/transpose_r/TP_R_256x192_d256_h1024
 
 ### Acknowledgements
 
-Great thanks for these papers and their open-source codes：[HRNet](https://github.com/leoxiaobin/deep-high-resolution-net.pytorch),  [DETR](https://github.com/facebookresearch/detr),  [DarkPose](https://github.com/ilovepose/DarkPose)
+Great thanks for these papers and their open-source codes：[HRNet](https://github.com/leoxiaobin/deep-high-resolution-net.pytorch),  [DETR](https://github.com/facebookresearch/detr),  [DarkPose](https://github.com/ilovepose/DarkPose), [Transpose](https://github.com/yangsenius/TransPose)
 
 ### License
 
 This repository is released under the [MIT LICENSE](https://github.com/yangsenius/TransPose/blob/main/LICENSE).
-
-## Citation
-
-If you find this repository useful please give it a star 🌟 or consider citing our work:
-
-```tex
-@inproceedings{yang2021transpose,
-  title={TransPose: Keypoint Localization via Transformer},
-  author={Yang, Sen and Quan, Zhibin and Nie, Mu and Yang, Wankou},
-  booktitle={IEEE/CVF International Conference on Computer Vision (ICCV)},
-  year={2021}
-}
-```
