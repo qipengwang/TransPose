@@ -46,10 +46,10 @@ class TransPoseM(nn.Module):
         # base net
         model = basenet()
         self.features = model.features[:num_features]
-        print(self.features[-1])
+        # print(self.features[-1])
         self.features = nn.Sequential(*self.features)
         num_out = model.features_out[num_features - 1]
-        print(num_out)
+        # print(num_out)
 
         d_model = cfg.MODEL.DIM_MODEL
         dim_feedforward = cfg.MODEL.DIM_FEEDFORWARD

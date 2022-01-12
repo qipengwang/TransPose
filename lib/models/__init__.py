@@ -16,5 +16,6 @@ from __future__ import print_function
 import models.transpose_r
 import models.transpose_h
 import models.transpose_cv
+import models.swin_transpose
 import models.mobilenet
 
