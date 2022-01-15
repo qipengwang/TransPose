@@ -23,3 +23,4 @@ CUDA_VISIBLE_DEVICES=1 python tools/train.py --cfg experiments/coco/swin_transpo
 CUDA_VISIBLE_DEVICES=0 python tools/train.py --cfg experiments/coco/swin_transpose/STP_ShuffleNetV2_256x192_d256_h1024_enc4_mh8.yaml
 CUDA_VISIBLE_DEVICES=1 python tools/train.py --cfg experiments/coco/swin_transpose/STP_SqueezeNet_256x192_d256_h1024_enc4_mh8.yaml
 CUDA_VISIBLE_DEVICES=2 python tools/train.py --cfg experiments/coco/swin_transpose/STP_Xception_256x192_d256_h1024_enc4_mh8.yaml
+CUDA_VISIBLE_DEVICES=1 python tools/train.py --cfg experiments/coco/swin_transpose/STP_ResNet50_256x192_d256_h1024_enc4_mh8.yaml

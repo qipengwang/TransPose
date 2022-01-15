@@ -12,6 +12,7 @@ from models.squeezenet import SqueezeNet
 from models.vgg import *
 from models.linear import LinearProjection
 from models.swin_transpose import SwinTransformer
+from models.swin_transposeH import SwinTransposeH
 
 # import os
 # root = 'experiments/coco/swin_transpose'

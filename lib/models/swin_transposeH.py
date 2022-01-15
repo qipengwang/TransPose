@@ -703,7 +703,7 @@ class SwinTransformer(nn.Module):
         use_checkpoint (bool): Whether to use checkpointing to save memory. Default: False
     """
 
-    def __init__(self, input_shape=(32, 24), input_channel=256, depths=[2, 2, 6, 2], num_heads=[2, 4, 8, 16],
+    def __init__(self, input_shape=(64, 48), input_channel=256, depths=[2, 2, 6, 2], num_heads=[2, 4, 8, 16],
                  window_size=1, mlp_ratio=4., qkv_bias=True, qk_scale=None,
                  drop_rate=0., attn_drop_rate=0., drop_path_rate=0.1,
                  norm_layer=nn.LayerNorm, ape=False, patch_norm=True,
@@ -1036,6 +1036,7 @@ class SwinTransposeH(nn.Module):
 
         x = self.reduce(y_list[0])
         # bs, c, h, w = x.shape
+        # print(x.shape)
         x = self.global_encoder(x)
         # x = x.permute(1, 2, 0).contiguous().view(bs, c, h, w)
         x = self.final_layer(x)

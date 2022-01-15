@@ -18,4 +18,5 @@ import models.transpose_h
 import models.transpose_cv
 import models.swin_transpose
 import models.mobilenet
+import models.swin_transposeH
 
