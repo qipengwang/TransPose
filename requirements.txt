@@ -10,3 +10,4 @@ json_tricks
 scikit-image
 yacs>=0.1.5
 tensorboardX
+matplotlib
